@@ -1,0 +1,21 @@
+version: "3"
+services:
+    react:
+        build:
+            context: .  #.은 dockerfile과 같은 위치이므로 같은 디렉토리를 의미하는 .을 사용
+            dockerfile: Dockerfile.dev  #docker build -f 옵션과 같은 맥락
+        ports:
+            - "3000:3000"
+        volumes:
+            - /usr/src/app/node_modules #참조하지 않음
+            - ./:/usr/src/app #/usr/src/app 에서 ./ 를 참조
+        stdin_open: true #리액트에 한정된 부분 -> 리액트 앱을 끌 때 필요
+
+    tests:
+        build:
+            context: .
+            dockerfile: Dockerfile.dev
+        volumes:
+            - /usr/src/app/node_modules
+            - ./:/usr/src/app
+        command: ["npm", "run", "test"]
