@@ -13,6 +13,14 @@ script:
   - docker run -e CI=true wnwjq462/docker-react-app npm run test -- --coverage
   # -e CI=true 는 travis 사용 시 필요한 옵션, test 진행
 
-after_success:
-  - echo "Test Success"
-  #테스트 성공 후에 할 일 .
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-react-app"
+  env: "Dockerreactapp-env"
+  bucket_name: "elasticbeanstalk-us-east-1-050994067027"
+  bucket_path: "docker-react-app"
+  on:
+    branch: master
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_ACCESS_KEY
